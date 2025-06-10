@@ -37,6 +37,7 @@ nav {
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-bottom: 35px;
 }
 
 .name-tag {
@@ -213,4 +214,38 @@ section .content {
 
 #skills {
     color: white;
+    display: flex;
+    flex-wrap: wrap;
+    text-align: justify;
+}
+
+.skill-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.skill-details .text {
+    width: 50%;
+}
+
+.skills .content {
+    padding: 40px 0;
+}
+
+.skill-details .boxes {
+    width: 45%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.skill-details .box {
+    width: calc(100% / 2 -20px);
+    margin: 20px;
+}
+
+.boxes .topic {
+    color: #b74b4b;
+    text-shadow: 0 0 10px #b74b4b;
 }

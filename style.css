@@ -32,7 +32,7 @@ section .main-container {
     padding-left: 100px;
     align-items: center;
     width: 100%;
-    min-height: 90vh;
+    min-height: 100vh;
 }
 
 .main-container .image {
@@ -185,7 +185,7 @@ section .content {
 .skill-details {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
 }
 
 .skill-details .text {
@@ -215,4 +215,74 @@ section .content {
 
 #contact {
     color: white;
+    min-height: 40vh;
 }
+
+#contact .button {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#contact .button button {
+    background-color: #b74b4b;
+    border: none;
+    padding: 12px 20px;
+    color: white;
+    border-radius: 15px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+#contact .button a {
+    color: inherit;
+}
+
+#contact button {
+    width: fit-content;
+}
+
+section .title span {
+    position: relative;
+    display: inline-block;
+}
+
+section .title span::before,
+section .title span::after {
+    content: "";
+    position: absolute;
+    height: 3px;
+    width: 100%;
+    background: #b74b4b;
+    left: 0;
+    bottom: 0;
+}
+
+section .title span::after {
+    bottom: -7px;
+    width: 70%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+footer {
+    background: #b74b4b;
+    padding: 15px 0;
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+}
+
+footer .text span {
+    font-size: 17px;
+    font-weight: 400;
+    color: #fff;
+}
+
+footer .text span a {
+    font-weight: 500;
+    color: #fff;
+}
+
+footer .text span a:hover {
+    text-decoration: underline;
+}
+

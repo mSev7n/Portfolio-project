@@ -10,13 +10,10 @@
 }
 
 body {
-    width: 100vw;
+    width: 100%;
     height: auto;
     background-color: black;
     overflow-x: hidden;
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
 }
 
 section .main-container {
@@ -29,22 +26,15 @@ section .main-container {
 }
 
 .main-container .image {
-    width: 90vw;
-    height: auto;
-    max-width: 300px;
-    max-height: 300px;
-    border-radius: 50%;
+    width: 500px;
+    height: 80vh;
+    border-radius: 100%;
     overflow: hidden;
     box-shadow: 0 0 50px #b74b4b;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 .main-container .image img {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
 }
 
 .main-container .image:hover {
@@ -150,11 +140,8 @@ section .main-container {
 }
 
 section .content {
-    width: 100%;
-    margin: 0 auto;
-    max-width: 1200px;
-    padding: 1rem;
-    box-sizing: border-box;
+    width: 80%;
+    margin: 0px auto;
     font-family: 'Poppins', sans-serif;
 }
 
@@ -314,12 +301,9 @@ footer .text span a:hover {
 
 @media (max-width: 968px) {
     section .main-container {
-        padding: 2rem 1rem;
+        padding-left: 0px;
         display: flex;
         flex-direction: column;
-        align-items: center;
-        width: 100%;
-        box-sizing: border-box;
     }
 
     .main-container .content {
@@ -365,11 +349,9 @@ footer .text span a:hover {
 
 @media (max-width: 500px) {
     .main-container .image {
-        width: 60vw;
-        height: 60vw;
+        width: 50%;
+        height: 60%;
         margin-bottom: 0px;
-        max-width: 250px;
-        max-height: 250px;
     }
 
     .main-container .content {
@@ -384,8 +366,4 @@ footer .text span a:hover {
         font-size: 50px;
         color: #b74b4b;
     }
-}
-
-section.main-container {
-    padding: 0 5vw;
 }

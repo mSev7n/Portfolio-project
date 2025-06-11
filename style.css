@@ -9,6 +9,10 @@
     scroll-behavior: smooth;
 }
 
+html {
+    scroll-behavior: smooth;
+  }
+
 html, body {
     width: 100%;
     background-color: black;
@@ -323,4 +327,8 @@ footer .text span a:hover {
     }
   }
   
+  .quote {
+    color: #b74b4b;
+    font-weight: bold;
+  }
   

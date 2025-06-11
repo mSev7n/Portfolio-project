@@ -213,7 +213,7 @@ section .content {
 #contact {
     text-align: center;
     padding: 3rem 1rem;
-    min-height: 40vh;
+    min-height: 15vh;
     max-width: 800px;
     margin: 0 auto;
 }

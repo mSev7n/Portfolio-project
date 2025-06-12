@@ -74,6 +74,10 @@ section .main-container {
 
 .typewriter span {
     position: relative;
+    display: inline;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
 }
 
 .main-container .content {
@@ -96,6 +100,10 @@ section .main-container {
 .content .typewriter {
     font-size: clamp(1rem, 1rem + 5vw, 2.5rem);
     font-weight: 600;
+    text-align: center;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
 }
 
 .content p {

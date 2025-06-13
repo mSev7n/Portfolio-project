@@ -75,9 +75,8 @@ section .main-container {
 .typewriter span {
     position: relative;
     display: inline;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
     white-space: normal;
+    word-break: keep-all;
 }
 
 .main-container .content {

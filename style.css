@@ -302,10 +302,6 @@ footer .text span a:hover {
     text-decoration: underline;
 }
 
-#project {
-    min-height: 90vh;
-}
-
 #project button a {
     color: inherit;
 }

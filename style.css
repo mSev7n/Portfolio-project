@@ -302,6 +302,43 @@ footer .text span a:hover {
     text-decoration: underline;
 }
 
+#project button a {
+    color: inherit;
+}
+
+.projectImg {
+    max-width: 100%;
+    height: auto;
+    border-radius: 20px;
+}
+
+.seeMore {
+    max-width: fit-content;
+}
+
+.pj {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 2rem;
+    flex: 1 1 300px;
+}
+
+.pj .boxes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.pj .box {
+    flex: 1 1 calc(50% - 1rem);
+    background: rgba(255,255,255,0.05);
+    padding: 1rem;
+    border-radius: 10px;
+    text-align: center;
+}
+
+
 @media (max-width: 768px) {
     .main-container {
         flex-direction: column;

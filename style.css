@@ -303,7 +303,7 @@ footer .text span a:hover {
 }
 
 #project {
-    min-height: 85vh;
+    min-height: 100vh;
 }
 
 #project button a {

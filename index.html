@@ -3,213 +3,272 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>mSeven's Portfolio Website</title>
+    <title>mSeven.Dev — Portfolio v2</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-    
-    <!--Navigations-->
-    <nav>
-        <div class="nav-container">
-            <div class="name-tag">
-                <span>mSeven.Dev</span>
+
+    <!-- Noise overlay for texture -->
+    <div class="noise"></div>
+
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="nav-inner">
+            <a href="#" class="nav-logo">mSeven<span>.dev</span></a>
+            <div class="nav-links">
+                <a href="#about">About</a>
+                <a href="#skills">Skills</a>
+                <a href="#projects">Projects</a>
+                <a href="#contact">Contact</a>
             </div>
+            <a href="cv.pdf" download class="nav-cv">Download CV <i class="fa-solid fa-arrow-down"></i></a>
         </div>
     </nav>
 
-    <section>
-        <div class="main-container">
-
-            <div class="image">
-                <img src="ChatGPT Image May 24, 2025, 11_00_57 AM.png" alt="">
-            </div>
-
-            <div class="content">
-                <h1 data-aos="fade-left">Hey i'm <span>mSeven</span></h1>
-                <div class="typewriter">I'm a 
-                    <span class="typewriter-text">Front-End Developer/ Designer</span>
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-inner">
+            <div class="hero-left">
+                <div class="hero-badge">
+                    <span class="badge-dot"></span>
+                    Available for work
                 </div>
-                
-                <p>
-                    I design and build engaging front-end experiences with simplicity and purpose in mind.
-                     Though I'm still early in my journey,
-                      I've committed to crafting clean,
-                       responsive interfaces — always learning,
-                        always improving, and driven by a mindset to grow with every project.
-                         I'm constantly pushing myself to <span class="quote">"Go Beyond, Plus Ultra!"</span> — one step, one line of code at a time.
+                <h1 class="hero-title">
+                    Hey, I'm<br>
+                    <span class="hero-name">mSeven</span>
+                </h1>
+                <div class="hero-role">
+                    <span class="role-line"></span>
+                    <span class="typewriter-text" id="typewriter">Front-End Developer</span>
+                </div>
+                <p class="hero-desc">
+                    I design and build engaging front-end experiences with simplicity and purpose in mind. Committed to crafting clean, responsive interfaces — always learning, always improving. <span class="accent-text">"Go Beyond, Plus Ultra!"</span>
                 </p>
-                
-                <div class="social-links">
-
-                    <a href="https://github.com/mSev7n" target="_blank" rel="noopener noreferrer">
-                        <i class="fa-brands fa-github"></i>
-                    </a>
-    
-                    <a href="https://linkedin.com/in/msev7n" target="_blank" rel="noopener noreferrer">
-                        <i class="fa-brands fa-linkedin"></i>
-                    </a>
-    
-                    <a href="https://www.instagram.com/msev3n/" target="_blank" rel="noopener noreferrer">
-                        <i class="fa-brands fa-instagram"></i>
-                    </a>
-    
-                    <div class="btn">
-                        <a href="#contact">
-                            <button>Chat Me</button>
+                <div class="hero-actions">
+                    <a href="#contact" class="btn-primary">Chat Me</a>
+                    <div class="hero-socials">
+                        <a href="https://github.com/mSev7n" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+                            <i class="fa-brands fa-github"></i>
                         </a>
-                        
+                        <a href="https://linkedin.com/in/msev7n" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                            <i class="fa-brands fa-linkedin"></i>
+                        </a>
+                        <a href="https://www.instagram.com/msev3n/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                            <i class="fa-brands fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-right">
+                <div class="avatar-ring">
+                    <div class="avatar-inner">
+                        <img src="ChatGPT Image May 24, 2025, 11_00_57 AM.png" alt="mSeven" class="avatar-img">
+                    </div>
+                    <div class="ring ring-1"></div>
+                    <div class="ring ring-2"></div>
+                </div>
+                <div class="floating-tag tag-1">
+                    <i class="fa-brands fa-js"></i> JavaScript
+                </div>
+                <div class="floating-tag tag-2">
+                    <i class="fa-brands fa-angular"></i> Angular
+                </div>
+                <div class="floating-tag tag-3">
+                    <i class="fa-brands fa-react"></i> React
+                </div>
+            </div>
+        </div>
+        <div class="hero-scroll-hint">
+            <span>scroll</span>
+            <div class="scroll-line"></div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="section-inner">
+            <div class="section-label">
+                <span class="label-num">01</span>
+                <span class="label-text">About Me</span>
+            </div>
+            <h2 class="section-title">Open-Minded<br><span>Digital Craftsman</span></h2>
+            <div class="about-grid">
+                <div class="about-card">
+                    <div class="about-card-icon"><i class="fa-solid fa-hammer"></i></div>
+                    <h3>My Approach</h3>
+                    <p>I'm a Nigerian-based front-end developer with a strong preference for learning by doing. Building things — not just reading about them — helps me understand concepts faster and more deeply.</p>
+                </div>
+                <div class="about-card">
+                    <div class="about-card-icon"><i class="fa-solid fa-brain"></i></div>
+                    <h3>My Mindset</h3>
+                    <p>Practical, focused, and growth-driven. I spend my time experimenting, refining, and challenging myself to build cleaner, more functional interfaces. Committed to the craft every single day.</p>
+                </div>
+                <div class="about-card">
+                    <div class="about-card-icon"><i class="fa-solid fa-palette"></i></div>
+                    <h3>The Artist in Me</h3>
+                    <p>Consistent, curious, and adaptable. I enjoy solving problems and pushing through the messy parts of the process — improving not just as a developer, but as an <span class="accent-text">Artist</span>.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section class="skills" id="skills">
+        <div class="section-inner">
+            <div class="section-label">
+                <span class="label-num">02</span>
+                <span class="label-text">Skills</span>
+            </div>
+            <h2 class="section-title">Technologies I<br><span>Work With</span></h2>
+            <div class="skills-layout">
+                <div class="topic">
+                    “The task is not so much to see what no one has yet seen; but to think what nobody has yet thought, about that which everybody sees.”
+                </div>
+                <div class="skills-desc">
+                    <p>I've been steadily building my front-end skills through hands-on projects, with a focus on writing clean, maintainable code and designing responsive layouts. I'm comfortable with the full front-end stack and keep pushing deeper every day.</p>
+                    <a href="cv.pdf" download class="btn-primary" style="margin-top: 2rem; display: inline-flex; align-items: center; gap: 8px;">
+                        Download CV <i class="fa-solid fa-arrow-down"></i>
+                    </a>
+                </div>
+                <div class="skills-pills">
+                    <div class="skill-pill">
+                        <span class="pill-dot" style="background:#e44d26"></span>HTML
+                    </div>
+                    <div class="skill-pill">
+                        <span class="pill-dot" style="background:#1572b6"></span>CSS
+                    </div>
+                    <div class="skill-pill">
+                        <span class="pill-dot" style="background:#f7df1e"></span>JavaScript
+                    </div>
+                    <div class="skill-pill">
+                        <span class="pill-dot" style="background:#3178c6"></span>TypeScript
+                    </div>
+                    <div class="skill-pill">
+                        <span class="pill-dot" style="background:#61dafb"></span>React
+                    </div>
+                    <div class="skill-pill">
+                        <span class="pill-dot" style="background:#dd0031"></span>Angular
+                    </div>
+                    <div class="skill-pill">
+                        <span class="pill-dot" style="background:#06b6d4"></span>Tailwind CSS
+                    </div>
+                    <div class="skill-pill">
+                        <span class="pill-dot" style="background:#47a248"></span>MongoDB
+                    </div>
+                    <div class="skill-pill">
+                        <span class="pill-dot" style="background:#f05032"></span>Git & GitHub
+                    </div>
+                    <div class="skill-pill">
+                        <span class="pill-dot" style="background:#ed8b00"></span>Java
+                    </div>
+                    <div class="skill-pill">
+                        <span class="pill-dot" style="background:#a8b9cc"></span>C / C++
+                    </div>
+                    <div class="skill-pill">
+                        <span class="pill-dot" style="background:#cc2927"></span>T-SQL
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- Projects Section -->
+    <section class="projects" id="projects">
+        <div class="section-inner">
+            <div class="section-label">
+                <span class="label-num">03</span>
+                <span class="label-text">Projects</span>
+            </div>
+            <h2 class="section-title">Things I've<br><span>Built</span></h2>
+            <div class="projects-grid">
 
-<!--About Section-->
-<section class="about" id="about">
-    <div class="content">
-        <div class="title"><span>About Me</span></div>
-        <div class="about-details">
-            <div class="topic">Open-Minded Digital_Craftsman</div>
-            
-            <p>
-                I'm a Nigerian-based front-end developer with a strong preference for learning by doing. I’ve always found that building things — not just reading about them — helps me understand concepts faster and more deeply.
-            </p>
-
-            <p>
-                My approach is practical, focused, and growth-driven. I spend most of my time experimenting, refining, and challenging myself to build cleaner, more functional interfaces. I’m committed to the craft, and even more committed to improving every day.
-            </p>
-
-            <p>
-                While I’m still at the beginning of my professional journey, I take pride in being consistent, curious, and adaptable. I enjoy solving problems, learning from others, and pushing through the messy parts of the process to get better — not just as a developer, but as an <span class="quote">Artist</span>.
-            </p>
-            
-        </div>
-    </div>
-</section>
-
-
-<!--Skills Sectioin-->
-<section class="skills" id="skills">
-    <div class="content">
-        <div class="title"><span>Technologies I Work With</span></div>
-        <div class="skill-details">
-            <div class="text">
-                <div class="topic">
-                    “The task is not so much to see what no one has yet seen; but to think what nobody has yet thought, about that which everybody sees.”
+                <div class="project-card">
+                    <div class="project-thumb">
+                        <img src="mini-commerce.png" alt="mini-commerce thumbnail">
+                        <div class="project-overlay">
+                            <a href="https://m7-mini-commerce.vercel.app/" target="_blank" rel="noopener noreferrer" class="overlay-btn">
+                                <i class="fa-solid fa-arrow-up-right-from-square"></i> Live Demo
+                            </a>
+                            <a href="https://github.com/mSev7n" target="_blank" rel="noopener noreferrer" class="overlay-btn overlay-btn-ghost">
+                                <i class="fa-brands fa-github"></i> View Code
+                            </a>
+                        </div>
+                    </div>
+                    <div class="project-body">
+                        <h3>mini-commerce</h3>
+                        <p>Fully responsive e-commerce frontend built with Angular as a technical assessment. Demonstrates routing, services, reactive state, and form handling.</p>
+                        <div class="project-tags">
+                            <span class="p-tag">Angular</span>
+                            <span class="p-tag">Tailwind</span>
+                            <span class="p-tag">TypeScript</span>
+                        </div>
+                    </div>
                 </div>
-                <p data-aos="fade-right">
-                    I’ve been steadily building my front-end skills through hands-on projects,
-                     with a focus on writing clean, maintainable code and designing responsive layouts that work across devices.
-                      I’m comfortable working with <span class="quote">HTML</span>, <span class="quote">CSS</span>, and <span class="quote">JavaScript</span>, and I’ve just started diving deeper into frameworks like <span class="quote">React</span>.
-                       More than just knowing tools, I care about how to keep improving with every line of code.
-                        I may still be growing, but I show up every day ready to learn and level up.
-                </p>
-                <a href="cv.pdf" download class="cv-button">
-                    <button>Download CV</button>
+
+                <div class="project-card">
+                    <div class="project-thumb">
+                        <img src="calculator.png" alt="calculator thumbnail">
+                        <div class="project-overlay">
+                            <a href="https://msev7n.github.io/webCalc/" target="_blank" rel="noopener noreferrer" class="overlay-btn">
+                                <i class="fa-solid fa-arrow-up-right-from-square"></i> Live Demo
+                            </a>
+                            <a href="https://github.com/mSev7n" target="_blank" rel="noopener noreferrer" class="overlay-btn overlay-btn-ghost">
+                                <i class="fa-brands fa-github"></i> View Code
+                            </a>
+                        </div>
+                    </div>
+                    <div class="project-body">
+                        <h3>Web Calculator</h3>
+                        <p>Clean web-based calculator with chaining, decimal support, and backspace — focused on solid UI and good UX fundamentals.</p>
+                        <div class="project-tags">
+                            <span class="p-tag">HTML</span>
+                            <span class="p-tag">CSS</span>
+                            <span class="p-tag">JavaScript</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <p class="more-coming">More projects coming soon...</p>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="section-inner contact-inner">
+            <div class="section-label">
+                <span class="label-num">04</span>
+                <span class="label-text">Contact</span>
+            </div>
+            <h2 class="section-title">Let's Work<br><span>Together</span></h2>
+            <p class="contact-sub">Reach out on any platform — I'm always open to connect.</p>
+            <div class="contact-buttons">
+                <a href="https://www.instagram.com/msev3n/" target="_blank" rel="noopener noreferrer" class="contact-btn contact-ig">
+                    <i class="fa-brands fa-instagram"></i>
+                    <span>Instagram</span>
                 </a>
-                
-            </div>
-            <div class="boxes">
-                <div class="box">
-                    <div class="topic">HTML</div>
-                </div>
-                <div class="box">
-                    <div class="topic">CSS</div>
-                </div>
-                <div class="box">
-                    <div class="topic">JAVASCRIPT</div>
-                </div>
-                <div class="box">
-                    <div class="topic">JAVA</div>
-                </div>
-                <div class="box">
-                    <div class="topic">C</div>
-                </div>
-                <div class="box">
-                    <div class="topic">C++</div>
-                </div>
-                <div class="box">
-                    <div class="topic">T-Sql</div>
-                </div>
-                <div class="box">
-                    <div class="topic">Git</div>
-                </div>
-                <div class="box">
-                    <div class="topic">Github</div>
-                </div>
-                <div class="box">
-                    <div class="topic">MongoDb</div>
-                </div>
-                <div class="box">
-                    <div class="topic">Angular</div>
-                </div>
-                <div class="box">
-                    <div class="topic">Typescript</div>
-                </div>
-                <div class="box">
-                    <div class="topic">Tailwind Css</div>
-                </div>
+                <a href="mailto:pythagorasm7@gmail.com?subject=Let's%20Work%20Together&body=Hi%20there%2C%0AI'd%20love%20to%20connect!" class="contact-btn contact-email">
+                    <i class="fa-solid fa-envelope"></i>
+                    <span>pythagorasm7@gmail.com</span>
+                </a>
+                <a href="https://wa.me/2349133497457?text=Hi%20mSeven%2C%20I%20just%20visited%20your%20portfolio%20and%20wanted%20to%20connect!" target="_blank" rel="noopener noreferrer" class="contact-btn contact-wa">
+                    <i class="fa-brands fa-whatsapp"></i>
+                    <span>WhatsApp</span>
+                </a>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<!--Project section-->
-<section class="project" id="project">
-    <div class="content">
-        <div class="title"><span>Projects</span></div>
-        <div class="pj">
-            <div class="boxes">
-                <div class="box">
-                    <img src="mini-commerce.png" alt="mini-commerce thumbnail" class="projectImg">
-                    <button class="topic"><a href="https://m7-mini-commerce.vercel.app/" target="_blank" rel="noopener noreferrer">Live Demo</a></button>
-                    <p>This is a fully responsive e-commerce frontend built with Angular, Standalone Components
-                        , and Tailwind CSS as part of a technical assessment for a Frontend Developer (Angular) role.
-                        
-                        The app demonstrates practical use of Angular routing, services, reactive state, form handling, and responsive UI design.</p>
-                </div>
-                <div class="box">
-                    <img src="calculator.png" alt="calculator thumbnail" class="projectImg">
-                    <button class="topic"><a href="https://msev7n.github.io/webCalc/" target="_blank" rel="noopener noreferrer">Live Demo</a></button>
-                    <p>A simple web-based calculator that performs basic arithmetic operations and includes features like chaining
-                        , decimal support, and a backspace function — all with a focus on clean UI and good UX.</p>
-                </div>
-            </div>
+    <!-- Footer -->
+    <footer>
+        <div class="footer-inner">
+            <span class="footer-logo">mSeven<span>.dev</span></span>
+            <span class="footer-copy">© 2025 All Rights Reserved</span>
         </div>
-        <button class="seeMore"><a href="">See more ...coming soon</a></button>
-    </div>
-</section>
+    </footer>
 
-
-<!--Contact Section-->
-<section class="contact" id="contact">
-    <div class="content">
-        <div class="title"><span>Contact Me</span></div>
-            <div class="button">
-                <button><a href="https://www.instagram.com/msev3n/" target="_blank" rel="noopener noreferrer">Instagram</a></button>
-                <button><a href="mailto:pythagorasm7@gmail.com?subject=Let's%20Work%20Together&body=Hi%20there%2C%0AI'd%20love%20to%20connect!" target="_blank" rel="noopener noreferrer">Email</a></button>
-                <button><a href="https://wa.me/2349133497457?text=Hi%20mSeven%2C%20I%20just%20visited%20your%20portfolio%20and%20wanted%20to%20connect!" target="_blank" rel="noopener noreferrer">Whatsapp</a></button>
-            </div>
-    </div>
-</section>
-
-
-
-
-<!--Footer Section-->
-<footer>
-    <div class="text"><span>Created by <a href="#">mSeven</a>
-    &#169; 2025 All Rights Reserved</span></div>
-</footer>
-    
+    <script src="script.js"></script>
 </body>
 </html>
-
-<!--- https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css
-
-https://fonts.googleapis.com/css2?family=Poppins%3Awght%40100%3B200%3B300%3B400%3B500%3B600&display=swap%27%29%3B
-
--per
-->

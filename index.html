@@ -605,7 +605,7 @@
 
     .project-img-placeholder {
       width: 100%;
-      height: 200px;
+      height: 100%;
       background: linear-gradient(135deg, #13131e 0%, #1a1a2e 100%);
       display: flex;
       flex-direction: column;
@@ -1269,10 +1269,10 @@
 
       <!-- Aethera Homes -->
       <div class="project-card reveal reveal-delay-2">
-        <div class="project-img-placeholder">
+        <div class="project-img-placeholder" id="img-aethera">
           <div class="ph-icon">🏡</div>
           <div class="ph-text">Add project screenshot</div>
-          <div class="ph-filename">assets/aethera.jpg</div>
+          <div class="ph-filename">assets/aethera.png</div>
         </div>
         <div class="project-body">
           <div class="project-type">Real Estate</div>
@@ -1307,7 +1307,7 @@
 
       <!-- PowerHouse -->
       <div class="project-card reveal reveal-delay-3">
-        <div class="project-img-placeholder">
+        <div class="project-img-placeholder" id="img-powerhouse">
           <div class="ph-icon">💪</div>
           <div class="ph-text">Add project screenshot</div>
           <div class="ph-filename">assets/powerhouse.jpg</div>
@@ -1344,7 +1344,7 @@
 
       <!-- AliskySea Realty -->
       <div class="project-card reveal reveal-delay-1">
-        <div class="project-img-placeholder">
+        <div class="project-img-placeholder" id="img-alisky">
           <div class="ph-icon">🌊</div>
           <div class="ph-text">Add project screenshot</div>
           <div class="ph-filename">assets/alisky.jpg</div>
@@ -1381,7 +1381,7 @@
 
       <!-- LuxeWigs -->
       <div class="project-card reveal reveal-delay-2">
-        <div class="project-img-placeholder">
+        <div class="project-img-placeholder" id="img-luxewigs">
           <div class="ph-icon">💎</div>
           <div class="ph-text">Add project screenshot</div>
           <div class="ph-filename">assets/luxewigs.jpg</div>
@@ -1419,7 +1419,7 @@
 
       <!-- Mini Commerce -->
       <div class="project-card reveal reveal-delay-3">
-        <div class="project-img-placeholder">
+        <div class="project-img-placeholder" id="img-minicommerce">
           <div class="ph-icon">🛒</div>
           <div class="ph-text">Add project screenshot</div>
           <div class="ph-filename">assets/minicommerce.jpg</div>
@@ -1598,7 +1598,8 @@
     // ── PROJECT IMAGE FALLBACK ──
     // Load image if file exists in assets/
     const projImgs = [
-      { id: 'img-stallr', file: 'assets/stallr.jpg' },
+      { id: 'img-stallr', file: 'assets/stallr.png' }, { id: 'img-aethera', file: 'assets/aethera.png' }, { id: 'img-powerhouse', file: 'assets/powerhouse.png' },
+      { id: 'img-alisky', file: 'assets/alisky.png' }, { id: 'img-luxewigs', file: 'assets/luxewigs.png' }, { id: 'img-minicommerce', file: 'assets/minicommerce.png' },
     ];
     projImgs.forEach(p => {
       const img = new Image();

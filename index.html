@@ -1,274 +1,1244 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>mSeven.Dev — Portfolio v2</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Portfolio Website Enhancement Project</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #050508;
+      --bg2: #0a0a10;
+      --surface: #10101a;
+      --surface2: #16161f;
+      --accent: #6c63ff;
+      --accent2: #a78bfa;
+      --accent3: #38bdf8;
+      --text: #f0f0f5;
+      --muted: #888899;
+      --border: rgba(108,99,255,0.18);
+      --glow: rgba(108,99,255,0.35);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* ── CUSTOM CURSOR ── */
+    #cursor {
+      width: 10px; height: 10px;
+      background: var(--accent);
+      border-radius: 50%;
+      position: fixed; top: 0; left: 0;
+      pointer-events: none; z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.08s, width 0.2s, height 0.2s, background 0.2s;
+      mix-blend-mode: normal;
+    }
+    #cursor-ring {
+      width: 36px; height: 36px;
+      border: 1.5px solid var(--accent);
+      border-radius: 50%;
+      position: fixed; top: 0; left: 0;
+      pointer-events: none; z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: transform 0.18s ease, width 0.25s, height 0.25s, border-color 0.2s;
+      opacity: 0.7;
+    }
+    body.cursor-hover #cursor { width: 16px; height: 16px; background: var(--accent2); }
+    body.cursor-hover #cursor-ring { width: 52px; height: 52px; border-color: var(--accent2); opacity: 0.4; }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5vw;
+      height: 64px;
+      background: rgba(5,5,8,0.7);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+      transition: all 0.3s;
+    }
+    nav.scrolled { background: rgba(5,5,8,0.92); }
+    .nav-logo {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700; font-size: 1.25rem;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text; text-decoration: none;
+      letter-spacing: -0.02em;
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: var(--muted); font-size: 0.875rem; font-weight: 500;
+      text-decoration: none; transition: color 0.2s; letter-spacing: 0.02em;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-cta {
+      padding: 8px 20px; border-radius: 8px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff !important; font-weight: 600 !important;
+      font-size: 0.8rem !important; letter-spacing: 0.04em !important;
+      transition: opacity 0.2s, transform 0.2s !important;
+    }
+    .nav-cta:hover { opacity: 0.85; transform: translateY(-1px); }
+
+    /* hamburger */
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; z-index: 101; }
+    .hamburger span { width: 24px; height: 2px; background: var(--text); border-radius: 2px; transition: all 0.3s; }
+    .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+    .mobile-menu {
+      display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(5,5,8,0.97); backdrop-filter: blur(20px);
+      flex-direction: column; align-items: center; justify-content: center;
+      gap: 2.5rem; z-index: 99;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a { color: var(--text); font-size: 1.5rem; text-decoration: none; font-weight: 600; }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: grid; grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 80px 5vw 0;
+      position: relative; overflow: hidden;
+    }
+    .hero-grid-bg {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(108,99,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(108,99,255,0.04) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+    }
+    .hero-orb {
+      position: absolute; border-radius: 50%;
+      filter: blur(90px); pointer-events: none;
+    }
+    .hero-orb-1 {
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(108,99,255,0.18) 0%, transparent 70%);
+      top: -100px; left: -100px;
+    }
+    .hero-orb-2 {
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(56,189,248,0.12) 0%, transparent 70%);
+      bottom: -50px; right: 20%;
+    }
+
+    .hero-content { position: relative; z-index: 2; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(108,99,255,0.12); border: 1px solid var(--border);
+      border-radius: 100px; padding: 6px 16px; margin-bottom: 24px;
+      font-size: 0.78rem; font-weight: 500; color: var(--accent2);
+      letter-spacing: 0.06em; text-transform: uppercase;
+    }
+    .hero-badge-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: #22c55e;
+      box-shadow: 0 0 8px #22c55e;
+      animation: pulse-dot 2s infinite;
+    }
+    @keyframes pulse-dot {
+      0%,100% { opacity: 1; } 50% { opacity: 0.4; }
+    }
+    .hero-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      font-weight: 800; line-height: 1.08;
+      letter-spacing: -0.03em; margin-bottom: 20px;
+    }
+    .hero-title span {
+      background: linear-gradient(135deg, var(--accent), var(--accent2), var(--accent3));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-sub {
+      font-size: 1.05rem; color: var(--muted); line-height: 1.7;
+      max-width: 460px; margin-bottom: 36px; font-weight: 400;
+    }
+    .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+    .btn {
+      padding: 13px 28px; border-radius: 10px; font-size: 0.9rem;
+      font-weight: 600; cursor: pointer; transition: all 0.25s;
+      text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+      letter-spacing: 0.01em;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff; border: none;
+      box-shadow: 0 4px 24px rgba(108,99,255,0.3);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(108,99,255,0.45); }
+    .btn-outline {
+      background: transparent; color: var(--text);
+      border: 1.5px solid var(--border);
+    }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent2); transform: translateY(-2px); }
+
+    .hero-stats {
+      display: flex; gap: 2rem; margin-top: 48px;
+    }
+    .stat { display: flex; flex-direction: column; }
+    .stat-num {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.8rem; font-weight: 700;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text; line-height: 1;
+    }
+    .stat-label { font-size: 0.75rem; color: var(--muted); margin-top: 4px; font-weight: 500; letter-spacing: 0.04em; }
+
+    /* ── 3D CANVAS ── */
+    .hero-3d {
+      position: relative; z-index: 2;
+      display: flex; align-items: center; justify-content: center;
+      height: 520px;
+    }
+    #hero-canvas {
+      width: 100%; height: 100%;
+      border-radius: 24px;
+    }
+    .canvas-glow {
+      position: absolute; inset: 0;
+      border-radius: 24px;
+      background: radial-gradient(ellipse at 50% 50%, rgba(108,99,255,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    /* ── SECTIONS COMMON ── */
+    section { padding: 100px 5vw; position: relative; }
+    .section-header { text-align: center; margin-bottom: 64px; }
+    .section-tag {
+      display: inline-block;
+      font-size: 0.72rem; font-weight: 600; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--accent);
+      background: rgba(108,99,255,0.1); border: 1px solid var(--border);
+      padding: 5px 14px; border-radius: 100px; margin-bottom: 16px;
+    }
+    .section-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 700; letter-spacing: -0.025em; line-height: 1.15;
+    }
+    .section-title span {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .section-desc {
+      margin-top: 14px; color: var(--muted); font-size: 1rem;
+      max-width: 520px; margin-left: auto; margin-right: auto; line-height: 1.7;
+    }
+
+    /* ── SKILLS ── */
+    #skills { background: var(--bg2); }
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    .skill-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px; padding: 24px;
+      transition: all 0.3s;
+    }
+    .skill-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(108,99,255,0.18);
+    }
+    .skill-card-head {
+      display: flex; align-items: center; gap: 12px; margin-bottom: 18px;
+    }
+    .skill-icon {
+      width: 42px; height: 42px; border-radius: 10px;
+      background: rgba(108,99,255,0.15);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem;
+    }
+    .skill-name { font-weight: 600; font-size: 0.95rem; }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 7px; }
+    .skill-tag {
+      background: rgba(108,99,255,0.1); border: 1px solid rgba(108,99,255,0.2);
+      color: var(--accent2); padding: 4px 11px; border-radius: 6px;
+      font-size: 0.75rem; font-weight: 500;
+    }
+
+    /* ── PROJECTS ── */
+    #projects { background: var(--bg); }
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 24px;
+    }
+    .project-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px; overflow: hidden;
+      transition: all 0.35s; position: relative;
+      display: flex; flex-direction: column;
+    }
+    .project-card::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(108,99,255,0.06) 0%, transparent 60%);
+      opacity: 0; transition: opacity 0.3s; pointer-events: none; z-index: 1;
+    }
+    .project-card:hover { transform: translateY(-6px); border-color: var(--accent); box-shadow: 0 16px 48px rgba(108,99,255,0.2); }
+    .project-card:hover::before { opacity: 1; }
+
+    .project-img {
+      width: 100%; height: 200px; object-fit: cover;
+      background: var(--surface2);
+      display: block; position: relative;
+    }
+    .project-img-placeholder {
+      width: 100%; height: 200px;
+      background: linear-gradient(135deg, #13131e 0%, #1a1a2e 100%);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 10px; color: var(--muted); font-size: 0.8rem;
+      border-bottom: 1px solid var(--border);
+      position: relative; overflow: hidden;
+    }
+    .project-img-placeholder::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(108,99,255,0.07) 0%, transparent 60%);
+    }
+    .project-img-placeholder .ph-icon { font-size: 2.4rem; opacity: 0.35; }
+    .project-img-placeholder .ph-text { opacity: 0.5; font-size: 0.72rem; letter-spacing: 0.04em; }
+    .project-img-placeholder .ph-filename {
+      color: var(--accent2); opacity: 0.7; font-family: monospace;
+      font-size: 0.68rem; background: rgba(108,99,255,0.1);
+      padding: 3px 10px; border-radius: 4px; border: 1px solid var(--border);
+      z-index: 1; position: relative;
+    }
+    .project-img img {
+      width: 100%; height: 100%; object-fit: cover;
+      display: block;
+    }
+
+    .project-body { padding: 22px 24px 20px; flex: 1; display: flex; flex-direction: column; }
+    .project-type {
+      font-size: 0.68rem; font-weight: 600; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--accent); margin-bottom: 8px;
+    }
+    .project-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.15rem; font-weight: 700; margin-bottom: 10px; line-height: 1.25;
+    }
+    .project-desc { color: var(--muted); font-size: 0.875rem; line-height: 1.65; flex: 1; }
+    .project-tech {
+      display: flex; flex-wrap: wrap; gap: 7px; margin-top: 16px;
+    }
+    .tech-chip {
+      background: rgba(56,189,248,0.08); border: 1px solid rgba(56,189,248,0.2);
+      color: var(--accent3); padding: 3px 10px; border-radius: 5px;
+      font-size: 0.7rem; font-weight: 500;
+    }
+    .project-links {
+      display: flex; gap: 10px; margin-top: 20px; padding-top: 18px;
+      border-top: 1px solid var(--border);
+    }
+    .project-link {
+      flex: 1; text-align: center;
+      padding: 9px 14px; border-radius: 9px; font-size: 0.8rem;
+      font-weight: 600; text-decoration: none; transition: all 0.22s;
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+    }
+    .project-link-live {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff;
+    }
+    .project-link-live:hover { opacity: 0.85; transform: translateY(-1px); }
+    .project-link-gh {
+      background: transparent; color: var(--muted);
+      border: 1.5px solid var(--border);
+    }
+    .project-link-gh:hover { border-color: var(--accent); color: var(--accent2); transform: translateY(-1px); }
+
+    /* ── ABOUT ── */
+    #about { background: var(--bg2); }
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1.3fr;
+      gap: 60px; align-items: center;
+    }
+    .about-visual {
+      position: relative; display: flex; align-items: center; justify-content: center;
+    }
+    #about-canvas { width: 340px; height: 340px; border-radius: 50%; }
+    .about-ring {
+      position: absolute; inset: -20px;
+      border-radius: 50%;
+      border: 1px dashed rgba(108,99,255,0.3);
+      animation: spin-slow 20s linear infinite;
+    }
+    .about-ring-2 {
+      position: absolute; inset: -44px;
+      border-radius: 50%;
+      border: 1px dashed rgba(56,189,248,0.2);
+      animation: spin-slow 35s linear infinite reverse;
+    }
+    @keyframes spin-slow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    .orbit-dot {
+      position: absolute; width: 10px; height: 10px; border-radius: 50%;
+      top: 50%; left: 50%; transform-origin: 0 0;
+    }
+    .orbit-dot-1 {
+      background: var(--accent);
+      box-shadow: 0 0 10px var(--accent);
+      animation: orbit 20s linear infinite;
+    }
+    .orbit-dot-2 {
+      background: var(--accent3);
+      box-shadow: 0 0 10px var(--accent3);
+      animation: orbit 35s linear infinite reverse;
+    }
+    @keyframes orbit {
+      from { transform: rotate(0deg) translateX(170px) rotate(0deg); }
+      to { transform: rotate(360deg) translateX(170px) rotate(-360deg); }
+    }
+
+    .about-content h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.9rem; font-weight: 700; margin-bottom: 20px; letter-spacing: -0.02em;
+    }
+    .about-content h3 span {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .about-content p { color: var(--muted); line-height: 1.78; margin-bottom: 16px; font-size: 0.95rem; }
+    .about-highlights { display: flex; gap: 14px; flex-wrap: wrap; margin: 24px 0; }
+    .highlight-pill {
+      display: flex; align-items: center; gap: 8px;
+      background: var(--surface); border: 1px solid var(--border);
+      padding: 8px 16px; border-radius: 100px; font-size: 0.8rem; font-weight: 500;
+    }
+    .highlight-pill span { color: var(--accent2); font-size: 1rem; }
+
+    /* ── CONTACT ── */
+    #contact { background: var(--bg); }
+    .contact-wrapper {
+      max-width: 640px; margin: 0 auto;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 24px; padding: 48px;
+      position: relative; overflow: hidden;
+    }
+    .contact-wrapper::before {
+      content: ''; position: absolute;
+      top: -100px; right: -100px;
+      width: 300px; height: 300px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(108,99,255,0.1) 0%, transparent 70%);
+    }
+    .contact-links { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-top: 32px; }
+    .contact-link {
+      display: flex; align-items: center; gap: 10px;
+      background: var(--surface2); border: 1.5px solid var(--border);
+      padding: 12px 22px; border-radius: 12px;
+      color: var(--text); text-decoration: none; font-weight: 500; font-size: 0.875rem;
+      transition: all 0.25s;
+    }
+    .contact-link:hover { border-color: var(--accent); color: var(--accent2); transform: translateY(-2px); }
+    .contact-link svg { width: 18px; height: 18px; }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 28px 5vw; display: flex;
+      align-items: center; justify-content: space-between;
+      color: var(--muted); font-size: 0.8rem;
+    }
+    footer a { color: var(--accent2); text-decoration: none; }
+
+    /* ── SCROLL ANIMATIONS ── */
+    .reveal {
+      opacity: 0; transform: translateY(32px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    /* ── SCROLL PROGRESS ── */
+    #scroll-progress {
+      position: fixed; top: 0; left: 0; height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2), var(--accent3));
+      z-index: 200; width: 0%; transition: width 0.1s;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      #hero { grid-template-columns: 1fr; text-align: center; padding-top: 100px; }
+      .hero-content { order: 1; }
+      .hero-3d { order: 0; height: 340px; }
+      .hero-sub { margin: 0 auto 36px; }
+      .hero-actions { justify-content: center; }
+      .hero-stats { justify-content: center; }
+      .about-grid { grid-template-columns: 1fr; text-align: center; gap: 40px; }
+      #about-canvas { width: 260px; height: 260px; }
+      .about-highlights { justify-content: center; }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+    }
+    @media (max-width: 600px) {
+      section { padding: 70px 5vw; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .contact-wrapper { padding: 30px 20px; }
+      .hero-stats { gap: 1.2rem; }
+    }
+  </style>
 </head>
 <body>
 
-    <!-- Noise overlay for texture -->
-    <div class="noise"></div>
+<!-- Cursor -->
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
 
-    <!-- Navigation -->
-    <nav id="navbar">
-        <div class="nav-inner">
-            <a href="#" class="nav-logo">mSeven<span>.dev</span></a>
-            <div class="nav-links">
-                <a href="#about">About</a>
-                <a href="#skills">Skills</a>
-                <a href="#projects">Projects</a>
-                <a href="#contact">Contact</a>
-            </div>
-            <a href="cv.pdf" download class="nav-cv">Download CV <i class="fa-solid fa-arrow-down"></i></a>
+<!-- Scroll progress -->
+<div id="scroll-progress"></div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a class="nav-logo" href="#">&lt;mSev7n /&gt;</a>
+  <ul class="nav-links">
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact" class="nav-cta">Contact Me</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobile-menu">
+  <a href="#skills" onclick="closeMobile()">Skills</a>
+  <a href="#projects" onclick="closeMobile()">Projects</a>
+  <a href="#about" onclick="closeMobile()">About</a>
+  <a href="#contact" onclick="closeMobile()">Contact</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-orb hero-orb-1"></div>
+  <div class="hero-orb hero-orb-2"></div>
+
+  <div class="hero-content">
+    <div class="hero-badge">
+      <div class="hero-badge-dot"></div>
+      Open to opportunities
+    </div>
+    <h1 class="hero-title">
+      Hi, I'm <span>mSev7n</span><br/>
+      Full Stack<br/>Developer
+    </h1>
+    <p class="hero-sub">
+      I craft beautiful, performant web experiences — from pixel-perfect UIs to scalable backends. Turning ideas into elegant digital reality.
+    </p>
+    <div class="hero-actions">
+      <a href="#projects" class="btn btn-primary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+        View My Work
+      </a>
+      <a href="#contact" class="btn btn-outline">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+        Let's Talk
+      </a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-num" data-count="6">0</div>
+        <div class="stat-label">Projects</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num" data-count="2">0</div>
+        <div class="stat-label">Years Exp.</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num" data-count="10">0</div>
+        <div class="stat-label">Technologies</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-3d">
+    <canvas id="hero-canvas"></canvas>
+    <div class="canvas-glow"></div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-header">
+    <div class="section-tag reveal">Expertise</div>
+    <h2 class="section-title reveal reveal-delay-1">What I <span>Bring</span> to the Table</h2>
+    <p class="section-desc reveal reveal-delay-2">A versatile stack spanning front-end beauty to back-end power.</p>
+  </div>
+  <div class="skills-grid">
+    <div class="skill-card reveal reveal-delay-1">
+      <div class="skill-card-head">
+        <div class="skill-icon">⚛️</div>
+        <div class="skill-name">Frontend</div>
+      </div>
+      <div class="skill-tags">
+        <span class="skill-tag">React</span>
+        <span class="skill-tag">Next.js</span>
+        <span class="skill-tag">TypeScript</span>
+        <span class="skill-tag">Tailwind CSS</span>
+        <span class="skill-tag">HTML5</span>
+        <span class="skill-tag">CSS3</span>
+      </div>
+    </div>
+    <div class="skill-card reveal reveal-delay-2">
+      <div class="skill-card-head">
+        <div class="skill-icon">🛠️</div>
+        <div class="skill-name">Backend</div>
+      </div>
+      <div class="skill-tags">
+        <span class="skill-tag">Node.js</span>
+        <span class="skill-tag">Express</span>
+        <span class="skill-tag">REST APIs</span>
+        <span class="skill-tag">MongoDB</span>
+        <span class="skill-tag">PostgreSQL</span>
+      </div>
+    </div>
+    <div class="skill-card reveal reveal-delay-3">
+      <div class="skill-card-head">
+        <div class="skill-icon">🎨</div>
+        <div class="skill-name">UI/UX & Design</div>
+      </div>
+      <div class="skill-tags">
+        <span class="skill-tag">Figma</span>
+        <span class="skill-tag">Framer Motion</span>
+        <span class="skill-tag">GSAP</span>
+        <span class="skill-tag">Three.js</span>
+        <span class="skill-tag">Responsive Design</span>
+      </div>
+    </div>
+    <div class="skill-card reveal reveal-delay-4">
+      <div class="skill-card-head">
+        <div class="skill-icon">☁️</div>
+        <div class="skill-name">Tools & DevOps</div>
+      </div>
+      <div class="skill-tags">
+        <span class="skill-tag">Git & GitHub</span>
+        <span class="skill-tag">Vercel</span>
+        <span class="skill-tag">Docker</span>
+        <span class="skill-tag">CI/CD</span>
+        <span class="skill-tag">Linux</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-header">
+    <div class="section-tag reveal">My Work</div>
+    <h2 class="section-title reveal reveal-delay-1">Featured <span>Projects</span></h2>
+    <p class="section-desc reveal reveal-delay-2">Real-world applications built with clean code and great UX.</p>
+  </div>
+  <div class="projects-grid">
+
+    <!-- STALLR -->
+    <div class="project-card reveal reveal-delay-1">
+      <div class="project-img-placeholder" id="img-stallr">
+        <div class="ph-icon">🐴</div>
+        <div class="ph-text">Add project screenshot</div>
+        <div class="ph-filename">assets/stallr.jpg</div>
+      </div>
+      <div class="project-body">
+        <div class="project-type">Marketplace Platform</div>
+        <div class="project-name">STALLR</div>
+        <div class="project-desc">A modern marketplace platform built for seamless buying and selling. Features product listings, user authentication, and a streamlined checkout experience.</div>
+        <div class="project-tech">
+          <span class="tech-chip">Next.js</span>
+          <span class="tech-chip">React</span>
+          <span class="tech-chip">Tailwind</span>
+          <span class="tech-chip">MongoDB</span>
         </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <section class="hero" id="home">
-        <div class="hero-inner">
-            <div class="hero-left">
-                <div class="hero-badge">
-                    <span class="badge-dot"></span>
-                    Available for work
-                </div>
-                <h1 class="hero-title">
-                    Hey, I'm<br>
-                    <span class="hero-name">mSeven</span>
-                </h1>
-                <div class="hero-role">
-                    <span class="role-line"></span>
-                    <span class="typewriter-text" id="typewriter">Front-End Developer</span>
-                </div>
-                <p class="hero-desc">
-                    I design and build engaging front-end experiences with simplicity and purpose in mind. Committed to crafting clean, responsive interfaces — always learning, always improving. <span class="accent-text">"Go Beyond, Plus Ultra!"</span>
-                </p>
-                <div class="hero-actions">
-                    <a href="#contact" class="btn-primary">Chat Me</a>
-                    <div class="hero-socials">
-                        <a href="https://github.com/mSev7n" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-                            <i class="fa-brands fa-github"></i>
-                        </a>
-                        <a href="https://linkedin.com/in/msev7n" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-                            <i class="fa-brands fa-linkedin"></i>
-                        </a>
-                        <a href="https://www.instagram.com/msev3n/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-                            <i class="fa-brands fa-instagram"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="hero-right">
-                <div class="avatar-ring">
-                    <div class="avatar-inner">
-                        <img src="ChatGPT Image May 24, 2025, 11_00_57 AM.png" alt="mSeven" class="avatar-img">
-                    </div>
-                    <div class="ring ring-1"></div>
-                    <div class="ring ring-2"></div>
-                </div>
-                <div class="floating-tag tag-1">
-                    <i class="fa-brands fa-js"></i> JavaScript
-                </div>
-                <div class="floating-tag tag-2">
-                    <i class="fa-brands fa-angular"></i> Angular
-                </div>
-                <div class="floating-tag tag-3">
-                    <i class="fa-brands fa-react"></i> React
-                </div>
-            </div>
+        <div class="project-links">
+          <a href="https://stallr.vercel.app/" target="_blank" class="project-link project-link-live">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            Live Demo
+          </a>
+          <a href="https://github.com/mSev7n/STALLR" target="_blank" class="project-link project-link-gh">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+            GitHub
+          </a>
         </div>
-        <div class="hero-scroll-hint">
-            <span>scroll</span>
-            <div class="scroll-line"></div>
+      </div>
+    </div>
+
+    <!-- Aethera Homes -->
+    <div class="project-card reveal reveal-delay-2">
+      <div class="project-img-placeholder">
+        <div class="ph-icon">🏡</div>
+        <div class="ph-text">Add project screenshot</div>
+        <div class="ph-filename">assets/aethera.jpg</div>
+      </div>
+      <div class="project-body">
+        <div class="project-type">Real Estate</div>
+        <div class="project-name">Aethera Homes</div>
+        <div class="project-desc">Premium real estate landing page with elegant design, property showcases, and lead capture. Designed for a high-end property brand.</div>
+        <div class="project-tech">
+          <span class="tech-chip">React</span>
+          <span class="tech-chip">CSS3</span>
+          <span class="tech-chip">Animations</span>
         </div>
-    </section>
-
-    <!-- About Section -->
-    <section class="about" id="about">
-        <div class="section-inner">
-            <div class="section-label">
-                <span class="label-num">01</span>
-                <span class="label-text">About Me</span>
-            </div>
-            <h2 class="section-title">Open-Minded<br><span>Digital Craftsman</span></h2>
-            <div class="about-grid">
-                <div class="about-card">
-                    <div class="about-card-icon"><i class="fa-solid fa-hammer"></i></div>
-                    <h3>My Approach</h3>
-                    <p>I'm a Nigerian-based front-end developer with a strong preference for learning by doing. Building things — not just reading about them — helps me understand concepts faster and more deeply.</p>
-                </div>
-                <div class="about-card">
-                    <div class="about-card-icon"><i class="fa-solid fa-brain"></i></div>
-                    <h3>My Mindset</h3>
-                    <p>Practical, focused, and growth-driven. I spend my time experimenting, refining, and challenging myself to build cleaner, more functional interfaces. Committed to the craft every single day.</p>
-                </div>
-                <div class="about-card">
-                    <div class="about-card-icon"><i class="fa-solid fa-palette"></i></div>
-                    <h3>The Artist in Me</h3>
-                    <p>Consistent, curious, and adaptable. I enjoy solving problems and pushing through the messy parts of the process — improving not just as a developer, but as an <span class="accent-text">Artist</span>.</p>
-                </div>
-            </div>
+        <div class="project-links">
+          <a href="https://aethera-homes.vercel.app/" target="_blank" class="project-link project-link-live">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            Live Demo
+          </a>
+          <a href="https://github.com/mSev7n/RealEstateLandingPage" target="_blank" class="project-link project-link-gh">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+            GitHub
+          </a>
         </div>
-    </section>
+      </div>
+    </div>
 
-    <!-- Skills Section -->
-    <section class="skills" id="skills">
-        <div class="section-inner">
-            <div class="section-label">
-                <span class="label-num">02</span>
-                <span class="label-text">Skills</span>
-            </div>
-            <h2 class="section-title">Technologies I<br><span>Work With</span></h2>
-            <div class="skills-layout">
-                <div class="topic">
-                    “The task is not so much to see what no one has yet seen; but to think what nobody has yet thought, about that which everybody sees.”
-                </div>
-                <div class="skills-desc">
-                    <p>I've been steadily building my front-end skills through hands-on projects, with a focus on writing clean, maintainable code and designing responsive layouts. I'm comfortable with the full front-end stack and keep pushing deeper every day.</p>
-                    <a href="cv.pdf" download class="btn-primary" style="margin-top: 2rem; display: inline-flex; align-items: center; gap: 8px;">
-                        Download CV <i class="fa-solid fa-arrow-down"></i>
-                    </a>
-                </div>
-                <div class="skills-pills">
-                    <div class="skill-pill">
-                        <span class="pill-dot" style="background:#e44d26"></span>HTML
-                    </div>
-                    <div class="skill-pill">
-                        <span class="pill-dot" style="background:#1572b6"></span>CSS
-                    </div>
-                    <div class="skill-pill">
-                        <span class="pill-dot" style="background:#f7df1e"></span>JavaScript
-                    </div>
-                    <div class="skill-pill">
-                        <span class="pill-dot" style="background:#3178c6"></span>TypeScript
-                    </div>
-                    <div class="skill-pill">
-                        <span class="pill-dot" style="background:#61dafb"></span>React
-                    </div>
-                    <div class="skill-pill">
-                        <span class="pill-dot" style="background:#dd0031"></span>Angular
-                    </div>
-                    <div class="skill-pill">
-                        <span class="pill-dot" style="background:#06b6d4"></span>Tailwind CSS
-                    </div>
-                    <div class="skill-pill">
-                        <span class="pill-dot" style="background:#47a248"></span>MongoDB
-                    </div>
-                    <div class="skill-pill">
-                        <span class="pill-dot" style="background:#f05032"></span>Git & GitHub
-                    </div>
-                    <div class="skill-pill">
-                        <span class="pill-dot" style="background:#ed8b00"></span>Java
-                    </div>
-                    <div class="skill-pill">
-                        <span class="pill-dot" style="background:#a8b9cc"></span>C / C++
-                    </div>
-                    <div class="skill-pill">
-                        <span class="pill-dot" style="background:#cc2927"></span>T-SQL
-                    </div>
-                </div>
-            </div>
+    <!-- PowerHouse -->
+    <div class="project-card reveal reveal-delay-3">
+      <div class="project-img-placeholder">
+        <div class="ph-icon">💪</div>
+        <div class="ph-text">Add project screenshot</div>
+        <div class="ph-filename">assets/powerhouse.jpg</div>
+      </div>
+      <div class="project-body">
+        <div class="project-type">Fitness & Lifestyle</div>
+        <div class="project-name">PowerHouse</div>
+        <div class="project-desc">A bold fitness brand landing page featuring gym services, membership plans, and motivational design to drive sign-ups.</div>
+        <div class="project-tech">
+          <span class="tech-chip">HTML5</span>
+          <span class="tech-chip">CSS3</span>
+          <span class="tech-chip">JavaScript</span>
         </div>
-    </section>
-
-    <!-- Projects Section -->
-    <section class="projects" id="projects">
-        <div class="section-inner">
-            <div class="section-label">
-                <span class="label-num">03</span>
-                <span class="label-text">Projects</span>
-            </div>
-            <h2 class="section-title">Things I've<br><span>Built</span></h2>
-            <div class="projects-grid">
-
-                <div class="project-card">
-                    <div class="project-thumb">
-                        <img src="mini-commerce.png" alt="mini-commerce thumbnail">
-                        <div class="project-overlay">
-                            <a href="https://m7-mini-commerce.vercel.app/" target="_blank" rel="noopener noreferrer" class="overlay-btn">
-                                <i class="fa-solid fa-arrow-up-right-from-square"></i> Live Demo
-                            </a>
-                            <a href="https://github.com/mSev7n" target="_blank" rel="noopener noreferrer" class="overlay-btn overlay-btn-ghost">
-                                <i class="fa-brands fa-github"></i> View Code
-                            </a>
-                        </div>
-                    </div>
-                    <div class="project-body">
-                        <h3>mini-commerce</h3>
-                        <p>Fully responsive e-commerce frontend built with Angular as a technical assessment. Demonstrates routing, services, reactive state, and form handling.</p>
-                        <div class="project-tags">
-                            <span class="p-tag">Angular</span>
-                            <span class="p-tag">Tailwind</span>
-                            <span class="p-tag">TypeScript</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="project-card">
-                    <div class="project-thumb">
-                        <img src="calculator.png" alt="calculator thumbnail">
-                        <div class="project-overlay">
-                            <a href="https://msev7n.github.io/webCalc/" target="_blank" rel="noopener noreferrer" class="overlay-btn">
-                                <i class="fa-solid fa-arrow-up-right-from-square"></i> Live Demo
-                            </a>
-                            <a href="https://github.com/mSev7n" target="_blank" rel="noopener noreferrer" class="overlay-btn overlay-btn-ghost">
-                                <i class="fa-brands fa-github"></i> View Code
-                            </a>
-                        </div>
-                    </div>
-                    <div class="project-body">
-                        <h3>Web Calculator</h3>
-                        <p>Clean web-based calculator with chaining, decimal support, and backspace — focused on solid UI and good UX fundamentals.</p>
-                        <div class="project-tags">
-                            <span class="p-tag">HTML</span>
-                            <span class="p-tag">CSS</span>
-                            <span class="p-tag">JavaScript</span>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-            <p class="more-coming">More projects coming soon...</p>
+        <div class="project-links">
+          <a href="https://drealpowerhouse.vercel.app/" target="_blank" class="project-link project-link-live">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            Live Demo
+          </a>
+          <a href="https://github.com/mSev7n/powerHouse" target="_blank" class="project-link project-link-gh">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+            GitHub
+          </a>
         </div>
-    </section>
+      </div>
+    </div>
 
-    <!-- Contact Section -->
-    <section class="contact" id="contact">
-        <div class="section-inner contact-inner">
-            <div class="section-label">
-                <span class="label-num">04</span>
-                <span class="label-text">Contact</span>
-            </div>
-            <h2 class="section-title">Let's Work<br><span>Together</span></h2>
-            <p class="contact-sub">Reach out on any platform — I'm always open to connect.</p>
-            <div class="contact-buttons">
-                <a href="https://www.instagram.com/msev3n/" target="_blank" rel="noopener noreferrer" class="contact-btn contact-ig">
-                    <i class="fa-brands fa-instagram"></i>
-                    <span>Instagram</span>
-                </a>
-                <a href="mailto:pythagorasm7@gmail.com?subject=Let's%20Work%20Together&body=Hi%20there%2C%0AI'd%20love%20to%20connect!" class="contact-btn contact-email">
-                    <i class="fa-solid fa-envelope"></i>
-                    <span>pythagorasm7@gmail.com</span>
-                </a>
-                <a href="https://wa.me/2349133497457?text=Hi%20mSeven%2C%20I%20just%20visited%20your%20portfolio%20and%20wanted%20to%20connect!" target="_blank" rel="noopener noreferrer" class="contact-btn contact-wa">
-                    <i class="fa-brands fa-whatsapp"></i>
-                    <span>WhatsApp</span>
-                </a>
-            </div>
+    <!-- AliskySea Realty -->
+    <div class="project-card reveal reveal-delay-1">
+      <div class="project-img-placeholder">
+        <div class="ph-icon">🌊</div>
+        <div class="ph-text">Add project screenshot</div>
+        <div class="ph-filename">assets/alisky.jpg</div>
+      </div>
+      <div class="project-body">
+        <div class="project-type">Real Estate</div>
+        <div class="project-name">AliskySea Realty</div>
+        <div class="project-desc">A luxury coastal real estate platform showcasing oceanfront properties with immersive visuals and a polished, premium feel.</div>
+        <div class="project-tech">
+          <span class="tech-chip">React</span>
+          <span class="tech-chip">Next.js</span>
+          <span class="tech-chip">Tailwind</span>
         </div>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        <div class="footer-inner">
-            <span class="footer-logo">mSeven<span>.dev</span></span>
-            <span class="footer-copy">© 2025 All Rights Reserved</span>
+        <div class="project-links">
+          <a href="https://alisky-sea-realty.vercel.app/" target="_blank" class="project-link project-link-live">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            Live Demo
+          </a>
+          <a href="https://github.com/mSev7n/AliskySea-Realty" target="_blank" class="project-link project-link-gh">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+            GitHub
+          </a>
         </div>
-    </footer>
+      </div>
+    </div>
 
-    <script src="script.js"></script>
+    <!-- LuxeWigs -->
+    <div class="project-card reveal reveal-delay-2">
+      <div class="project-img-placeholder">
+        <div class="ph-icon">💎</div>
+        <div class="ph-text">Add project screenshot</div>
+        <div class="ph-filename">assets/luxewigs.jpg</div>
+      </div>
+      <div class="project-body">
+        <div class="project-type">E-Commerce / Vendor</div>
+        <div class="project-name">LuxeWigs Home</div>
+        <div class="project-desc">A chic vendor landing page for a luxury hair brand — showcasing products, brand story, and a seamless shopping experience.</div>
+        <div class="project-tech">
+          <span class="tech-chip">HTML5</span>
+          <span class="tech-chip">CSS3</span>
+          <span class="tech-chip">JavaScript</span>
+        </div>
+        <div class="project-links">
+          <a href="https://luxewigs-home.vercel.app/" target="_blank" class="project-link project-link-live">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            Live Demo
+          </a>
+          <a href="https://github.com/mSev7n/vendor-landing-page-model" target="_blank" class="project-link project-link-gh">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mini Commerce -->
+    <div class="project-card reveal reveal-delay-3">
+      <div class="project-img-placeholder">
+        <div class="ph-icon">🛒</div>
+        <div class="ph-text">Add project screenshot</div>
+        <div class="ph-filename">assets/minicommerce.jpg</div>
+      </div>
+      <div class="project-body">
+        <div class="project-type">E-Commerce App</div>
+        <div class="project-name">M7 Mini Commerce</div>
+        <div class="project-desc">A compact e-commerce app with product browsing, cart management, and a clean checkout flow. Built for speed and simplicity.</div>
+        <div class="project-tech">
+          <span class="tech-chip">React</span>
+          <span class="tech-chip">Context API</span>
+          <span class="tech-chip">CSS Modules</span>
+        </div>
+        <div class="project-links">
+          <a href="https://m7-mini-commerce.vercel.app/" target="_blank" class="project-link project-link-live">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            Live Demo
+          </a>
+          <a href="https://github.com/mSev7n/mini-commerce" target="_blank" class="project-link project-link-gh">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-grid">
+    <div class="about-visual reveal">
+      <div class="about-ring"></div>
+      <div class="about-ring-2"></div>
+      <div class="orbit-dot orbit-dot-1"></div>
+      <div class="orbit-dot orbit-dot-2"></div>
+      <canvas id="about-canvas"></canvas>
+    </div>
+    <div class="about-content reveal reveal-delay-2">
+      <div class="section-tag" style="display:inline-block; margin-bottom:16px;">Who I Am</div>
+      <h3>A developer who <span>loves</span> what he builds</h3>
+      <p>I'm mSev7n — a passionate full-stack developer who loves blending engineering precision with creative design. My work spans interactive frontends, real estate platforms, fitness apps, and e-commerce solutions.</p>
+      <p>I believe great software lives at the intersection of clean code and thoughtful user experience. Every project is a chance to push the bar higher.</p>
+      <div class="about-highlights">
+        <div class="highlight-pill"><span>🚀</span> Fast Learner</div>
+        <div class="highlight-pill"><span>🎨</span> Design-First</div>
+        <div class="highlight-pill"><span>🤝</span> Collaborative</div>
+        <div class="highlight-pill"><span>⚡</span> Performance-Driven</div>
+      </div>
+      <a href="https://github.com/mSev7n" target="_blank" class="btn btn-primary" style="margin-top:8px;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+        View GitHub
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-header">
+    <div class="section-tag reveal">Get In Touch</div>
+    <h2 class="section-title reveal reveal-delay-1">Let's <span>Work Together</span></h2>
+    <p class="section-desc reveal reveal-delay-2">Open to freelance, full-time roles, and interesting collaborations.</p>
+  </div>
+  <div class="contact-wrapper reveal reveal-delay-2">
+    <p style="color:var(--muted); line-height:1.75; font-size:0.95rem; text-align:center;">
+      Whether you have a project in mind, want to collaborate, or just want to say hi — I'd love to hear from you. Let's build something amazing together.
+    </p>
+    <div class="contact-links">
+      <a href="https://github.com/mSev7n" target="_blank" class="contact-link">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+        GitHub
+      </a>
+      <a href="mailto:your@email.com" class="contact-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Email Me
+      </a>
+      <a href="https://linkedin.com" target="_blank" class="contact-link">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+        LinkedIn
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span>Built with 💜 by <a href="https://github.com/mSev7n">mSev7n</a></span>
+  <span>© 2025 — All rights reserved</span>
+</footer>
+
+<!-- THREE.JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+<script>
+// ── CURSOR ──
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursor-ring');
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; cursor.style.left = mx+'px'; cursor.style.top = my+'px'; });
+(function animRing() {
+  rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+  ring.style.left = rx+'px'; ring.style.top = ry+'px';
+  requestAnimationFrame(animRing);
+})();
+document.querySelectorAll('a, button, .project-card, .skill-card').forEach(el => {
+  el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+  el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+});
+
+// ── NAV SCROLL ──
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+  const h = document.documentElement;
+  const pct = window.scrollY / (h.scrollHeight - h.clientHeight) * 100;
+  document.getElementById('scroll-progress').style.width = pct + '%';
+});
+
+// ── HAMBURGER ──
+document.getElementById('hamburger').addEventListener('click', function() {
+  this.classList.toggle('open');
+  document.getElementById('mobile-menu').classList.toggle('open');
+});
+function closeMobile() {
+  document.getElementById('hamburger').classList.remove('open');
+  document.getElementById('mobile-menu').classList.remove('open');
+}
+
+// ── SCROLL REVEAL ──
+const revealEls = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+}, { threshold: 0.1 });
+revealEls.forEach(el => observer.observe(el));
+
+// ── COUNT UP ──
+function countUp(el) {
+  const target = parseInt(el.dataset.count);
+  let n = 0; const step = target / 40;
+  const t = setInterval(() => {
+    n = Math.min(n + step, target);
+    el.textContent = Math.floor(n) + '+';
+    if (n >= target) clearInterval(t);
+  }, 30);
+}
+const statsObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { document.querySelectorAll('[data-count]').forEach(countUp); statsObs.disconnect(); } });
+}, { threshold: 0.5 });
+const statsEl = document.querySelector('.hero-stats');
+if (statsEl) statsObs.observe(statsEl);
+
+// ── PROJECT IMAGE FALLBACK ──
+// Load image if file exists in assets/
+const projImgs = [
+  { id: 'img-stallr', file: 'assets/stallr.jpg' },
+];
+projImgs.forEach(p => {
+  const img = new Image();
+  img.onload = () => {
+    const el = document.getElementById(p.id);
+    if (el) { el.style.background = 'none'; el.innerHTML = `<img src="${p.file}" style="width:100%;height:100%;object-fit:cover;">`; }
+  };
+  img.src = p.file;
+});
+
+// ── HERO 3D SCENE (profile avatar) ──
+(function initHero3D() {
+  const canvas = document.getElementById('hero-canvas');
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setSize(canvas.parentElement.clientWidth, canvas.parentElement.clientHeight);
+  renderer.outputEncoding = THREE.sRGBEncoding;
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(45, canvas.parentElement.clientWidth / canvas.parentElement.clientHeight, 0.1, 100);
+  camera.position.set(0, 0, 5.5);
+
+  // Lighting
+  const amb = new THREE.AmbientLight(0xffffff, 0.4);
+  scene.add(amb);
+  const dir = new THREE.DirectionalLight(0x6c63ff, 2.5);
+  dir.position.set(3, 4, 5);
+  scene.add(dir);
+  const dir2 = new THREE.DirectionalLight(0x38bdf8, 1.5);
+  dir2.position.set(-4, -2, 3);
+  scene.add(dir2);
+  const pt = new THREE.PointLight(0xa78bfa, 2, 20);
+  pt.position.set(0, 2, 3);
+  scene.add(pt);
+
+  // Avatar group
+  const avatar = new THREE.Group();
+  scene.add(avatar);
+
+  // Try to load profile image as texture
+  const loader = new THREE.TextureLoader();
+  let profileTex = null;
+
+  function buildAvatar(tex) {
+    avatar.clear();
+
+    // Head sphere
+    const headGeo = new THREE.SphereGeometry(1.1, 64, 64);
+    const headMat = new THREE.MeshStandardMaterial({
+      map: tex || null,
+      color: tex ? 0xffffff : 0x8b7355,
+      roughness: 0.5, metalness: 0.1,
+    });
+    const head = new THREE.Mesh(headGeo, headMat);
+    head.position.y = 0.5;
+    avatar.add(head);
+
+    if (!tex) {
+      // Stylised face features
+      // Eyes
+      [-0.38, 0.38].forEach(x => {
+        const eyeGeo = new THREE.SphereGeometry(0.12, 16, 16);
+        const eyeMat = new THREE.MeshStandardMaterial({ color: 0x1a1a2e });
+        const eye = new THREE.Mesh(eyeGeo, eyeMat);
+        eye.position.set(x, 0.65, 1.01);
+        avatar.add(eye);
+        // Eye shine
+        const shineGeo = new THREE.SphereGeometry(0.04, 8, 8);
+        const shineMat = new THREE.MeshStandardMaterial({ color: 0xffffff, emissive: 0xffffff, emissiveIntensity: 1 });
+        const shine = new THREE.Mesh(shineGeo, shineMat);
+        shine.position.set(x + 0.05, 0.68, 1.12);
+        avatar.add(shine);
+      });
+      // Mouth
+      const mouthGeo = new THREE.TorusGeometry(0.22, 0.04, 8, 20, Math.PI);
+      const mouthMat = new THREE.MeshStandardMaterial({ color: 0x3d1a0a });
+      const mouth = new THREE.Mesh(mouthGeo, mouthMat);
+      mouth.position.set(0, 0.28, 1.06);
+      mouth.rotation.z = Math.PI;
+      avatar.add(mouth);
+    }
+
+    // Neck
+    const neckGeo = new THREE.CylinderGeometry(0.28, 0.32, 0.45, 16);
+    const neckMat = new THREE.MeshStandardMaterial({ color: 0x8b7355, roughness: 0.6 });
+    const neck = new THREE.Mesh(neckGeo, neckMat);
+    neck.position.y = -0.72;
+    avatar.add(neck);
+
+    // Body / shirt
+    const bodyGeo = new THREE.CylinderGeometry(0.72, 0.9, 1.6, 32, 1, true);
+    const bodyMat = new THREE.MeshStandardMaterial({ color: 0x1a1040, roughness: 0.7, side: THREE.DoubleSide });
+    const body = new THREE.Mesh(bodyGeo, bodyMat);
+    body.position.y = -1.72;
+    avatar.add(body);
+
+    // Shirt collar
+    const collarGeo = new THREE.TorusGeometry(0.32, 0.09, 8, 24);
+    const collarMat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.4 });
+    const collar = new THREE.Mesh(collarGeo, collarMat);
+    collar.position.set(0, -0.94, 0.15);
+    collar.rotation.x = 0.3;
+    avatar.add(collar);
+
+    // Floating particles around avatar
+    const particleCount = 60;
+    const pGeo = new THREE.BufferGeometry();
+    const positions = new Float32Array(particleCount * 3);
+    for (let i = 0; i < particleCount; i++) {
+      const r = 1.8 + Math.random() * 1.2;
+      const theta = Math.random() * Math.PI * 2;
+      const phi = Math.acos(2 * Math.random() - 1);
+      positions[i*3] = r * Math.sin(phi) * Math.cos(theta);
+      positions[i*3+1] = r * Math.sin(phi) * Math.sin(theta) + 0.5;
+      positions[i*3+2] = r * Math.cos(phi);
+    }
+    pGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    const pMat = new THREE.PointsMaterial({ color: 0x6c63ff, size: 0.045, transparent: true, opacity: 0.7 });
+    const particles = new THREE.Points(pGeo, pMat);
+    avatar.add(particles);
+
+    // Glowing ring halo
+    const ringGeo = new THREE.TorusGeometry(1.5, 0.025, 8, 80);
+    const ringMat = new THREE.MeshStandardMaterial({
+      color: 0x6c63ff, emissive: 0x6c63ff,
+      emissiveIntensity: 2, transparent: true, opacity: 0.75,
+    });
+    const ring = new THREE.Mesh(ringGeo, ringMat);
+    ring.rotation.x = Math.PI / 2.5;
+    ring.position.y = 0.4;
+    avatar.add(ring);
+
+    // Second ring
+    const ring2Geo = new THREE.TorusGeometry(1.75, 0.015, 8, 80);
+    const ring2Mat = new THREE.MeshStandardMaterial({
+      color: 0x38bdf8, emissive: 0x38bdf8,
+      emissiveIntensity: 2, transparent: true, opacity: 0.5,
+    });
+    const ring2 = new THREE.Mesh(ring2Geo, ring2Mat);
+    ring2.rotation.x = Math.PI / 3;
+    ring2.rotation.z = Math.PI / 6;
+    ring2.position.y = 0.3;
+    avatar.add(ring2);
+  }
+
+  // Try loading profile image
+  loader.load(
+    'assets/profile.jpg',
+    tex => { tex.wrapS = tex.wrapT = THREE.ClampToEdgeWrapping; buildAvatar(tex); },
+    undefined,
+    () => {
+      loader.load('assets/profile.png', tex => buildAvatar(tex), undefined, () => buildAvatar(null));
+    }
+  );
+  buildAvatar(null); // build immediately, will rebuild if image loads
+
+  // Scroll-driven tilt
+  let scrollY = 0;
+  window.addEventListener('scroll', () => { scrollY = window.scrollY; });
+
+  // Mouse interaction
+  let mouseX = 0, mouseY = 0;
+  document.addEventListener('mousemove', e => {
+    mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+    mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+  });
+
+  // Animate
+  let t = 0;
+  function animHero() {
+    requestAnimationFrame(animHero);
+    t += 0.008;
+
+    // Scroll-responsive: scale down + move up as user scrolls
+    const scrollFactor = Math.min(scrollY / 600, 1);
+    avatar.scale.setScalar(1 - scrollFactor * 0.3);
+    avatar.position.y = -scrollFactor * 0.8;
+
+    // Gentle float
+    avatar.position.y += Math.sin(t) * 0.06;
+
+    // Mouse tilt
+    avatar.rotation.y += (mouseX * 0.4 - avatar.rotation.y) * 0.06;
+    avatar.rotation.x += (-mouseY * 0.2 - avatar.rotation.x) * 0.06;
+
+    // Rings spin
+    avatar.children.forEach(child => {
+      if (child.geometry && child.geometry.type === 'TorusGeometry') {
+        child.rotation.z += 0.005;
+      }
+    });
+
+    renderer.render(scene, camera);
+  }
+  animHero();
+
+  // Resize
+  window.addEventListener('resize', () => {
+    const w = canvas.parentElement.clientWidth;
+    const h = canvas.parentElement.clientHeight;
+    camera.aspect = w / h; camera.updateProjectionMatrix();
+    renderer.setSize(w, h);
+  });
+})();
+
+// ── ABOUT 3D SCENE ──
+(function initAbout3D() {
+  const canvas = document.getElementById('about-canvas');
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setSize(340, 340);
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(50, 1, 0.1, 100);
+  camera.position.set(0, 0, 4.5);
+
+  const amb = new THREE.AmbientLight(0xffffff, 0.5);
+  scene.add(amb);
+  const dl = new THREE.DirectionalLight(0x6c63ff, 3);
+  dl.position.set(3, 3, 5); scene.add(dl);
+  const dl2 = new THREE.DirectionalLight(0x38bdf8, 2);
+  dl2.position.set(-3, -2, 2); scene.add(dl2);
+
+  const loader = new THREE.TextureLoader();
+  const group = new THREE.Group();
+  scene.add(group);
+
+  function buildAbout(tex) {
+    group.clear();
+    // Sphere with profile / stylised
+    const geo = new THREE.SphereGeometry(1.5, 64, 64);
+    const mat = new THREE.MeshStandardMaterial({
+      map: tex || null,
+      color: tex ? 0xffffff : 0x9c8a6e,
+      roughness: 0.4, metalness: 0.15,
+      envMapIntensity: 1,
+    });
+    group.add(new THREE.Mesh(geo, mat));
+
+    // Inner glow sphere
+    const glowGeo = new THREE.SphereGeometry(1.52, 32, 32);
+    const glowMat = new THREE.MeshStandardMaterial({
+      color: 0x6c63ff, emissive: 0x6c63ff,
+      emissiveIntensity: 0.15, transparent: true, opacity: 0.3,
+      wireframe: false, side: THREE.BackSide,
+    });
+    group.add(new THREE.Mesh(glowGeo, glowMat));
+  }
+
+  loader.load('assets/profile.jpg', tex => buildAbout(tex), undefined,
+    () => loader.load('assets/profile.png', tex => buildAbout(tex), undefined, () => buildAbout(null)));
+  buildAbout(null);
+
+  let t = 0;
+  function anim() {
+    requestAnimationFrame(anim);
+    t += 0.006;
+    group.rotation.y = t * 0.4;
+    group.rotation.x = Math.sin(t * 0.3) * 0.1;
+    renderer.render(scene, camera);
+  }
+  anim();
+
+  const ro = new ResizeObserver(() => {
+    const s = Math.min(canvas.parentElement.clientWidth, 340);
+    renderer.setSize(s, s);
+  });
+  ro.observe(canvas.parentElement);
+})();
+</script>
 </body>
 </html>
